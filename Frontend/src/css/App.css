@@ -5,4 +5,12 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+  }
 }
