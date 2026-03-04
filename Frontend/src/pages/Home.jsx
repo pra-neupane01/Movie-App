@@ -13,10 +13,8 @@ function Home() {
     const loadPopularMovies = async () => {
       try {
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies);
-      } catch (err) {
-        console.log(err);
-
+        setMovies(popularMovies || []);
+      } catch {
         setError("Failed to load movies...");
       } finally {
         setLoading(false);
@@ -27,23 +25,19 @@ function Home() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-
     if (!searchQuery.trim()) return;
-    if (loading) return;
+
     setLoading(true);
     try {
-      const searchResults = await searchMovies(searchQuery);
-      setMovies(searchResults);
+      const results = await searchMovies(searchQuery);
+      setMovies(results || []);
       setError(null);
-    } catch (error) {
-      console.log(error);
-
+    } catch {
       setError("Failed to search movies...");
     } finally {
       setLoading(false);
+      setSearchQuery("");
     }
-
-    setSearchQuery("");
   };
 
   return (
@@ -51,25 +45,24 @@ function Home() {
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
-          placeholder="search for movies..."
+          placeholder="Search for movies..."
           className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-
         <button type="submit" className="search-button">
           Search
         </button>
       </form>
 
-      {error && <div className="error-message">{error} </div>}
+      {error && <div className="error-message">{error}</div>}
 
       {loading ? (
-        <div className="loading">Loading.... </div>
+        <div className="loading">Loading...</div>
       ) : (
         <div className="movies-grid">
-          {movies.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
+          {movies?.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
       )}
