@@ -100,11 +100,4 @@ Integrate pagination for large datasets
 
 Add loading skeletons for better UX
 
-📄 License
 
-This project is open source and available under the MIT License.
-
-Built with ❤️ by Prakash Neupane
-
-
----
